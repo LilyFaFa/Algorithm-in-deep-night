@@ -1,34 +1,35 @@
-package widthfirst
+package depthfirst
 
 import (
 	"github.com/LilyFaFa/Algorithm-in-deep-night/collections"
 )
 
 // GraphSearch
-// 从图的某个节点出发，访问连通图的所有节点，所有节点只被访问一次，使用广度优先算法
+// 从图的某个节点出发，访问连通图的所有节点，所有节点只被访问一次，使用深度优先算法
 // 默认图的节点是从0开始的连续的正整数
 // 输入顶点邻接矩阵，输出访问顺序的队列
 
 // 访问某个节点
-func AccessNode(vv [][]int, currentNode int, q *collections.Queue, visited []bool) {
+func AccessNode(vv [][]int, currentNode int, q *collections.Stack, visited []bool) {
 	result := collections.Queue{}
 	result.Enqueue(currentNode)
 	for i, j := range vv[currentNode] {
 		if j == 1 && !visited[i] {
 			//进队列的设置为已经访问，因为，不设置可能会反复进队列
 			visited[i] = true
-			q.Enqueue(i)
+			q.Push(i)
 		}
 	}
 }
 
-// 广度优先搜索
-func WidthFirst(vv [][]int) *collections.Queue {
+// 深度优先搜索
+func DepthFirst(vv [][]int) *collections.Queue {
+
 	// 结果队列
 	result := &collections.Queue{}
 
-	// 中间访问队列
-	q := &collections.Queue{}
+	// 中间访问栈
+	q := &collections.Stack{}
 
 	// 初始节点设置为0
 	currentNode := 0
@@ -45,7 +46,7 @@ func WidthFirst(vv [][]int) *collections.Queue {
 	AccessNode(vv, currentNode, q, visited)
 
 	for !q.IsEmpty() {
-		current, _ := q.Dequeue()
+		current, _ := q.Pop()
 		// 断言
 		currentNode = current.(int)
 		result.Enqueue(currentNode)
