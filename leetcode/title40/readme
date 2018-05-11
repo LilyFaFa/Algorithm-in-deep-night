@@ -1,0 +1,6 @@
+搜索算法
+这道题问题是输入的数值可以重复，元素只能使用一次，但是结果不能重复.
+重点就是for循环的时候避开重复元素就可以
+if i > start && candidates[i] == candidates[i-1] {
+	continue
+}
