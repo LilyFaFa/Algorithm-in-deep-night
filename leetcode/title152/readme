@@ -1,0 +1,7 @@
+问题：
+	寻找序列最大的乘积的连续子串
+解法：对于每一个i要记录max[i]和min[i]，就是包含自己的最大值和最小值
+	max[i] = max{max[i-1]*nums[i],min[i-1]*nums,nums[i]}
+	min[i] = min{max[i-1]*nums[i],min[i-1]*nums,nums[i]}
+比这个问题要简单点的是求最大和的连续子串，也就是问题53
+	
