@@ -1,0 +1,8 @@
+二叉树搜索树问题，一般用递归调用
+树剪枝问题
+https://leetcode.com/problems/delete-node-in-a-bst/description/
+递归算法
+问题：
+	给定一个二叉树，以跟节点为标示，要求删掉树中的指定的值的node
+	
+解法：主要需要处理多种删除情况，删除之后树的调整
