@@ -1,0 +1,5 @@
+二叉树问题，一般使用递归调用。
+https://leetcode.com/problems/sum-of-left-leaves/description/
+问题：
+	给定一颗二叉树，给出所有左叶子节点的和
+解决：递归遍历二叉树，左子叶子节点为空，那么这个节点就是左叶子节点
