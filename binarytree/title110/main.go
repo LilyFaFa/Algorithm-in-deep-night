@@ -15,23 +15,27 @@ func isBalanced(root *TreeNode) bool {
 	return balancer
 }
 
-func treeHight(root *TreeNode, balancer *bool) {
+func treeHight(root *TreeNode, balancer *bool) int {
 	if root == nil {
 		return 0
 	}
 
 	leftHight := treeHight(root.Left, balancer)
 	rightHight := treeHight(root.Right, balancer)
+
 	if leftHight > rightHight+1 || rightHight > leftHight+1 {
 		*balancer = false
 		return 0
 	}
 
+	height := 0
+
 	if leftHight > rightHight {
-		leftHight++
-	} else if rightHight > leftHight {
-		rightHight++
+		height = leftHight + 1
+		return height
 	}
+	height = rightHight + 1
+	return height
 }
 
 func main() {

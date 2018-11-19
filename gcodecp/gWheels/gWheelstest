@@ -1,0 +1,151 @@
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"io"
+	"os"
+	"strconv"
+	"strings"
+)
+
+type MyInput struct {
+	rdr         io.Reader
+	lineChan    chan string
+	initialized bool
+}
+
+func (mi *MyInput) start(done chan struct{}) {
+	// bufio.Reader 结构包装了一个 io.Reader 对象，提供缓存功能，同时实现了 io.Reader 接口
+	r := bufio.NewReader(mi.rdr)
+	defer func() { close(mi.lineChan) }()
+
+	for {
+		line, err := r.ReadString('\n')
+		if !mi.initialized {
+			mi.initialized = true
+			done <- struct{}{}
+		}
+		mi.lineChan <- strings.TrimSpace(line)
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			panic(err)
+		}
+	}
+}
+
+func (mi *MyInput) readLine() string {
+	// if this is the first call, initialize
+	if !mi.initialized {
+		mi.lineChan = make(chan string)
+		done := make(chan struct{})
+		go mi.start(done)
+		<-done
+	}
+
+	res, ok := <-mi.lineChan
+	if !ok {
+		panic("trying to read from a closed channel")
+	}
+	return res
+}
+
+//每一行是一个int
+func (mi *MyInput) readInt() int {
+	line := mi.readLine()
+	i, err := strconv.Atoi(line)
+	if err != nil {
+		panic(err)
+	}
+	return i
+}
+
+func (mi *MyInput) readInt64() int64 {
+	line := mi.readLine()
+	i, err := strconv.ParseInt(line, 10, 64)
+	if err != nil {
+		panic(err)
+	}
+	return i
+}
+
+func (mi *MyInput) readInts() []int {
+	line := mi.readLine()
+	parts := strings.Split(line, " ")
+	res := []int{}
+	for _, s := range parts {
+		tmp, err := strconv.Atoi(s)
+		if err != nil {
+			panic(err)
+		}
+		res = append(res, tmp)
+	}
+	return res
+}
+
+func (mi *MyInput) readInt64s() []int64 {
+	line := mi.readLine()
+	parts := strings.Split(line, " ")
+	res := []int64{}
+	for _, s := range parts {
+		tmp, err := strconv.ParseInt(s, 10, 64)
+		if err != nil {
+			panic(err)
+		}
+		res = append(res, tmp)
+	}
+	return res
+}
+
+func (mi *MyInput) readWords() []string {
+	line := mi.readLine()
+	return strings.Split(line, " ")
+}
+
+func main() {
+	//f, _ := os.Open("A-small-practice.in")
+	//mi := MyInput{rdr: f}
+	mi := MyInput{rdr: os.Stdin}
+
+	t := mi.readInt()
+	for caseNo := 1; caseNo <= t; caseNo++ {
+		testCase := mi.readInt()
+		currentNumber := testCase * caseNo
+		digitPresent := make([]bool, 10)
+		for i := 1; i < 1000; i++ {
+			currentNumber = testCase * i
+			digits := len(strconv.Itoa(currentNumber))
+			for j := 1; j <= digits; j++ {
+				d := getDigit(currentNumber, j)
+				digitPresent[d] = true
+			}
+			if allFound(digitPresent) {
+				fmt.Printf("Case #%d: %d\n", caseNo, currentNumber)
+				break
+			}
+		}
+		if allFound(digitPresent) {
+			continue
+		}
+		fmt.Printf("Case #%d: INSOMNIA\n", caseNo)
+		// TODO - solve the case !
+	}
+}
+
+func getDigit(x int, digit int) int {
+	s := strconv.Itoa(x)
+	r := s[digit-1 : digit]
+	i, _ := strconv.Atoi(r)
+	return i
+}
+
+func allFound(test []bool) bool {
+	for i := 0; i < 10; i++ {
+		if !test[i] {
+			return false
+		}
+	}
+	return true
+}

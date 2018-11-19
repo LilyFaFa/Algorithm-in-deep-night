@@ -1,0 +1,11 @@
+#总结一下字符串常用的操作
+1、类型转换
+使用的是strconv包
+string转换为int：
+	int,err := strconv.Atoi(string)
+int转换为string：
+	string := strconv.Itoa(int)
+string转换为int64：
+	int64,err := strconv.ParseInt(string,10,64)
+int64转换为string：
+	string := strconv.FormatInt(int64,10)

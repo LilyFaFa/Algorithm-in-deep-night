@@ -76,5 +76,5 @@ func main() {
 	fmt.Println(l, l.Next, l.Next.Next, l.Next.Next.Next)
 	revertList(l)
 	//fmt.Println(l, l.Next, l.Next.Next, l.Next.Next.Next)
-	fmt.Println(l)
+	fmt.Println(l, l.Next)
 }

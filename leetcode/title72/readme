@@ -1,0 +1,5 @@
+问题：找一个最小的步骤（插入、删除、替换）可以将一个word1转换为word2
+记忆化递归
+子问题：
+    D("abbc","acc") = D("abb","ac")= min(D("ab","ac"),D("abb","ac"),D("ab","a"))+1
+    D("ab","ac") = min(D("a","ac"),D("ab","a"),D("a","a"))
